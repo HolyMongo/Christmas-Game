@@ -44,6 +44,33 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""efe6b410-a03a-490a-b116-69995deb7827"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""49101c81-6687-4d70-8f25-e1ae6bd3a366"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""f74d568e-d6d5-4b52-8e4c-aa19620844df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -167,6 +194,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b844691-4bcd-4425-a45a-b64781b3cc2d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4d31376-a131-4154-921b-fc8136d556bc"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1766094-8aa8-49be-8883-e6a6d634ee4d"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -205,6 +265,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_interact = m_Player.FindAction("interact", throwIfNotFound: true);
+        m_Player_attack = m_Player.FindAction("attack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -269,12 +332,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_interact;
+    private readonly InputAction m_Player_attack;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @interact => m_Wrapper.m_Player_interact;
+        public InputAction @attack => m_Wrapper.m_Player_attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -290,6 +359,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -300,6 +378,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
+                @interact.started += instance.OnInteract;
+                @interact.performed += instance.OnInteract;
+                @interact.canceled += instance.OnInteract;
+                @attack.started += instance.OnAttack;
+                @attack.performed += instance.OnAttack;
+                @attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -341,6 +428,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 765302631}
   - component: {fileID: 765302630}
   - component: {fileID: 765302629}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6f65ceb032ffa7f439d304706f11c4cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -307,7 +307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765302628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -0.805}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 775712305}
   - component: {fileID: 775712304}
   - component: {fileID: 775712303}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,14 +488,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.08142975, y: -0, z: -0, w: 0.9966791}
+  m_LocalPosition: {x: 0, y: 1.79, z: -2.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 9.342, y: 0, z: 0}
 --- !u!1001 &8832140135287307812
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -550,6 +550,18 @@ PrefabInstance:
     - target: {fileID: 3254577232007698749, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893147620346926234, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+      propertyPath: speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893147620346926234, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+      propertyPath: jumpPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893147620346926234, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+      propertyPath: sprintMulti
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 7292652922671072728, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_Height
