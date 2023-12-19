@@ -461,6 +461,7 @@ GameObject:
   - component: {fileID: 7292652922671072728}
   - component: {fileID: 4857907409430542772}
   - component: {fileID: 3893147620346926234}
+  - component: {fileID: 655707616771254306}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -550,6 +551,24 @@ MonoBehaviour:
   cam: {fileID: 0}
   relativeMoreDir: {x: 0, y: 0, z: 0}
   moveDir: {x: 0, y: 0, z: 0}
+--- !u!114 &655707616771254306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254577232007698749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbaf58d7b0ef7b5459d94aba34fde69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfExtents: {x: 0.5, y: 0.5, z: 1.5}
+  interactionDistance: 3
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  closestInteractable: {fileID: 0}
 --- !u!1 &3991047274472500631
 GameObject:
   m_ObjectHideFlags: 0

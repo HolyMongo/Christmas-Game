@@ -402,7 +402,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649197928}
-  m_LocalRotation: {x: 0.25967285, y: 0.00000000763444, z: -0.0000000020528774, w: 0.96569663}
+  m_LocalRotation: {x: 0.2596729, y: -0.00000005042965, z: 0.000000013560381, w: 0.96569663}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -700,6 +700,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &900085246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3254577232007698749, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+  m_PrefabInstance: {fileID: 8832140135287307812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &900085247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900085246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbaf58d7b0ef7b5459d94aba34fde69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfExtents: {x: 0.5, y: 0.5, z: 1.5}
+  interactionDistance: 3
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  closestInteractable: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,7 +1106,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 5
+    m_MaxSpeed: 2
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -1106,8 +1129,8 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_SpeedMode: 1
-    m_MaxSpeed: 2
+    m_SpeedMode: 0
+    m_MaxSpeed: 250
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -1436,8 +1459,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3174669988115934611, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3174669988115934611, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3174669988115934611, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3254577232007698749, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_Name
@@ -1457,7 +1488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6130813447984699152, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7292652922671072728, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
       propertyPath: m_Height
