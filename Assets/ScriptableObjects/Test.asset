@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89941fa4214f62d44b92b28a44697558, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  agentHeight: 0
-  agentRadius: 0
-  agentStepHeight: 0
-  agentSlopeLimit: 0
-  detectionRadius: 0
-  detectionDegres: 0
-  hp: 0
-  damage: 0
-  walkSpeed: 0
+  agentHeight: 2
+  agentRadius: 2
+  agentStepHeight: 0.45
+  agentSlopeLimit: 45
+  detectionRadius: 10
+  detectionDegres: 90
+  hp: 9999
+  damage: 9999
+  walkSpeed: 4
+  runSpeed: 7.5

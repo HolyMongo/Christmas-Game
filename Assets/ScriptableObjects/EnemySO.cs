@@ -19,6 +19,7 @@ public class EnemySO : ScriptableObject
     [SerializeField] private float hp;
     [SerializeField] private float damage;
     [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
 
 
     public float GetAgentHeight()
@@ -56,6 +57,10 @@ public class EnemySO : ScriptableObject
     public float GetWalkspeed()
     {
         return walkSpeed;
+    }
+    public float GetRunSpeed()
+    {
+        return runSpeed;
     }
 
 }
