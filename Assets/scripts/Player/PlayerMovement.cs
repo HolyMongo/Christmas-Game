@@ -18,7 +18,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Tooltip("Radius of the sphere that checks for ground")] private float groundDistance;
     [SerializeField] [Tooltip("What layers the player sees as ground. Aka what can the player stand on, jump from, etc")] private LayerMask groundLayer;
 
-    [Header("Test things")]
+    [Header("Ledge Grab")]
+    [SerializeField] [Tooltip("True if the player can grab the ledge")] private bool isLedgeGrabable;
+    [SerializeField] [Tooltip("True if the player is currently grabbing a ledge")] private bool isGrabbingLedge;
+    [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos1;
+    [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos2;
+    [SerializeField] [Tooltip("The layers that the player can grab")] private LayerMask ledgeGrabLayerMask;
+    [SerializeField] [Tooltip("The minimus with of the ledge for the player to grab it")] private float ledgeWithGrab;
+    [SerializeField] [Tooltip("The minimum with of the ledge for the player to pull itself up on the ledge")] private float ledgeWithStand;
+    [SerializeField] [Tooltip("The distance it checks beneath the two points in order to fing a ledge to grab")] private float rayDownLenght;
+
+
+    [Header("Test Things")]
     [SerializeField] [Tooltip("Testing purposes as of now")] private CharacterController cC;
     [SerializeField] [Tooltip("Testing purposes as of now")] private Transform cam;
     [SerializeField] [Tooltip("Testing purposes as of now")] private Vector3 relativeMoreDir;
@@ -40,6 +51,10 @@ public class PlayerMovement : MonoBehaviour
         {
             moveDir.y = Mathf.Sqrt(jumpPower * -2f * gravity);
             Debug.Log(obj.phase);
+        }
+        else
+        {
+            LedgeGrab();
         }
     }
 
@@ -87,5 +102,10 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
         return isGrounded;
+    }
+
+    private void LedgeGrab()
+    {
+
     }
 }
