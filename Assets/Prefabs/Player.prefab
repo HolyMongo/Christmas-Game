@@ -553,12 +553,13 @@ MonoBehaviour:
   isGrabbingLedge: 0
   checkPos1: {fileID: 2830682227913337747}
   checkPos2: {fileID: 568791754637122710}
+  distanceBetween1and2: 0
   ledgeGrabLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  ledgeWithGrab: 0
-  ledgeWithStand: 0
-  rayDownLenght: 0
+    m_Bits: 8
+  ledgeWithGrab: 0.15
+  ledgeWithStand: 0.7
+  rayDownLenght: 0.3
   cC: {fileID: 4857907409430542772}
   cam: {fileID: 0}
   relativeMoreDir: {x: 0, y: 0, z: 0}
