@@ -1746,8 +1746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bd3e952bca75e4e87090753722645e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 997889836}
-  target: {fileID: 1806692056}
 --- !u!4 &997889838
 Transform:
   m_ObjectHideFlags: 0
@@ -2691,7 +2689,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3eb8a628b095c0e4b90a2c7309b0299d, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3eb8a628b095c0e4b90a2c7309b0299d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3273,7 +3271,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1740044877
 GameObject:
@@ -3547,11 +3545,6 @@ Transform:
   m_Father: {fileID: 1452612606}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1806692056 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1280889751558902392, guid: 7a54eddd69505cc49b99ee3ab82587c0, type: 3}
-  m_PrefabInstance: {fileID: 377489221}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1825431401
 GameObject:
   m_ObjectHideFlags: 0
