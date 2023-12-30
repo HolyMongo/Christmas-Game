@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Tooltip("True if the player is currently grabbing a ledge")] private bool isGrabbingLedge;
     [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos1;
     [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos2;
+    [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private float distanceBetween1and2;
     [SerializeField] [Tooltip("The layers that the player can grab")] private LayerMask ledgeGrabLayerMask;
     [SerializeField] [Tooltip("The minimus with of the ledge for the player to grab it")] private float ledgeWithGrab;
     [SerializeField] [Tooltip("The minimum with of the ledge for the player to pull itself up on the ledge")] private float ledgeWithStand;
@@ -42,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.performed += Jump_performed;
+        distanceBetween1and2 = Vector3.Distance(checkPos1.position, checkPos2.position);
     }
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -106,6 +108,47 @@ public class PlayerMovement : MonoBehaviour
 
     private void LedgeGrab()
     {
+        //cast down
+        //cast forward
+        //cast between
+        RaycastHit cast1;
+        RaycastHit cast2;
+        RaycastHit cast3;
 
+        Physics.Raycast(checkPos1.position, Vector3.down, out cast1, rayDownLenght, ledgeGrabLayerMask);
+        Physics.Raycast(checkPos1.position, Vector3.down, out cast2, rayDownLenght, ledgeGrabLayerMask);
+
+        if (cast1.transform != null && cast2.transform != null)
+        {
+            Debug.Log("Not Fail");
+            Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast1, ledgeWithGrab, ledgeGrabLayerMask);
+            Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast2, ledgeWithGrab, ledgeGrabLayerMask);
+
+            if (cast1.transform == null && cast2.transform == null)
+            {
+                Debug.Log("Not Fail x2");
+
+                Vector3 dirBetween = checkPos1.position - checkPos2.position;
+                Physics.Raycast(checkPos2.position, dirBetween, out cast3, distanceBetween1and2, ledgeGrabLayerMask);
+                if (cast3.transform == null)
+                {
+                    Debug.Log("Not Fail x3");
+                    isLedgeGrabable = true;
+                    isGrabbingLedge = true;
+                }
+                else
+                {
+                    Debug.Log("Fail x3");
+                }
+            }
+            else
+            {
+                Debug.Log("Fail x2");
+            }
+        }
+        else
+        {
+            Debug.Log("Fail");
+        }
     }
 }
