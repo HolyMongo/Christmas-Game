@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Tooltip("The minimus with of the ledge for the player to grab it")] private float ledgeWithGrab;
     [SerializeField] [Tooltip("The minimum with of the ledge for the player to pull itself up on the ledge")] private float ledgeWithStand;
     [SerializeField] [Tooltip("The distance it checks beneath the two points in order to fing a ledge to grab")] private float rayDownLenght;
+    [SerializeField] [Tooltip("The distance the player should be betheathe yhe ledge. Aka the lenght of the arms")] private float heightOfset;
 
 
     [Header("Test Things")]
@@ -54,14 +55,22 @@ public class PlayerMovement : MonoBehaviour
             moveDir.y = Mathf.Sqrt(jumpPower * -2f * gravity);
             Debug.Log(obj.phase);
         }
-        else
-        {
-            LedgeGrab();
-        }
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (!isGrabbingLedge)
+        {
+            NormalMovement();
+        }
+        else
+        {
+            LedgeMovement();
+        }
+    }
+
+    private void NormalMovement()
     {
         Vector2 inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>().normalized;
 
@@ -86,8 +95,13 @@ public class PlayerMovement : MonoBehaviour
 
         relativeMoreDir = relativeForward + relativeRight;
         cC.Move(new Vector3(relativeMoreDir.x * speed, moveDir.y, relativeMoreDir.z * speed) * Time.deltaTime);
-
         Gravity();
+        LedgeGrabCheck();
+    }
+
+    private void LedgeMovement()
+    {
+
     }
 
     private void Gravity()
@@ -98,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         moveDir.y += gravity * Time.deltaTime;
+        
     }
 
     private bool IsGrounded()
@@ -106,49 +121,79 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 
-    private void LedgeGrab()
+    private void LedgeGrabCheck()
     {
-        //cast down
-        //cast forward
-        //cast between
-        RaycastHit cast1;
-        RaycastHit cast2;
-        RaycastHit cast3;
-
-        Physics.Raycast(checkPos1.position, Vector3.down, out cast1, rayDownLenght, ledgeGrabLayerMask);
-        Physics.Raycast(checkPos1.position, Vector3.down, out cast2, rayDownLenght, ledgeGrabLayerMask);
-
-        if (cast1.transform != null && cast2.transform != null)
+        if (!isGrounded && playerInputActions.Player.Jump.IsPressed())
         {
-            Debug.Log("Not Fail");
-            Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast1, ledgeWithGrab, ledgeGrabLayerMask);
-            Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast2, ledgeWithGrab, ledgeGrabLayerMask);
+            //cast down
+            //cast forward
+            //cast between
+            RaycastHit cast1;
+            RaycastHit cast2;
+            RaycastHit cast3;
 
-            if (cast1.transform == null && cast2.transform == null)
+            Physics.Raycast(checkPos1.position, Vector3.down, out cast1, rayDownLenght, ledgeGrabLayerMask);
+            Physics.Raycast(checkPos1.position, Vector3.down, out cast2, rayDownLenght, ledgeGrabLayerMask);
+
+            if (cast1.transform != null && cast2.transform != null)
             {
-                Debug.Log("Not Fail x2");
+                Vector3 gameObject1 = cast1.point;
+                Vector3 gameObject2 = cast2.point;
 
-                Vector3 dirBetween = checkPos1.position - checkPos2.position;
-                Physics.Raycast(checkPos2.position, dirBetween, out cast3, distanceBetween1and2, ledgeGrabLayerMask);
-                if (cast3.transform == null)
+                Debug.Log("Not Fail");
+                Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast1, ledgeWithGrab, ledgeGrabLayerMask);
+                Physics.Raycast(checkPos1.position, gameObject.transform.forward, out cast2, ledgeWithGrab, ledgeGrabLayerMask);
+
+                if (cast1.transform == null && cast2.transform == null)
                 {
-                    Debug.Log("Not Fail x3");
-                    isLedgeGrabable = true;
-                    isGrabbingLedge = true;
+
+                    Debug.Log("Not Fail x2");
+
+                    Vector3 dirBetween = checkPos1.position - checkPos2.position;
+                    Physics.Raycast(checkPos2.position, dirBetween, out cast3, distanceBetween1and2, ledgeGrabLayerMask);
+                    if (cast3.transform == null)
+                    {
+                        Debug.Log("Not Fail x3");
+                        isGrabbingLedge = true;
+                        GrabLedge(gameObject1, gameObject1);
+                    }
+                    else
+                    {
+                        Debug.Log("Fail x3");
+                    }
                 }
                 else
                 {
-                    Debug.Log("Fail x3");
+                    Debug.Log("Fail x2");
                 }
             }
             else
             {
-                Debug.Log("Fail x2");
+                Debug.Log("Fail");
             }
         }
-        else
+    }
+
+    private void GrabLedge(Vector3 gO1ToGrab, Vector3 gO2ToGrab)
+    {
+        Vector3 positionToGrab = gO2ToGrab - (gO1ToGrab - gO2ToGrab)/2;
+        Debug.Log("Position 1: " + gO1ToGrab);
+        Debug.Log("Position 2: " + gO2ToGrab);
+        if (gO1ToGrab.y == gO2ToGrab.y)
         {
-            Debug.Log("Fail");
+            positionToGrab = new Vector3(positionToGrab.x, gO2ToGrab.y, positionToGrab.z);
         }
+        Debug.Log("Position of contact: " + positionToGrab);
+
+        Vector3 positionToPlaceCharacter = positionToGrab - (positionToGrab - gameObject.transform.position) * cC.bounds.extents.z;
+        Debug.Log(positionToPlaceCharacter + " Before y positioning");
+        positionToPlaceCharacter.y -= heightOfset;
+        Debug.Log(positionToPlaceCharacter + " After y positioning");
+        
+
+
+        //Does not move smoothly but will be changed later
+        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, positionToPlaceCharacter, 1f);
     }
 }
+

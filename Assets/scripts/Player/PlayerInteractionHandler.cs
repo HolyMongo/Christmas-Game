@@ -53,7 +53,6 @@ public class PlayerInteractionHandler : MonoBehaviour
         center = transform.position + transform.forward * radius;
         Physics.SphereCastNonAlloc(center, radius, transform.forward, rayhitList, maxDistance, interactionLayer);
 
-        Debug.Log("Test");
         if (rayhitList[0].transform != null)
         {
             for (int i = 0; i < rayhitList.Length; i++)
@@ -61,12 +60,10 @@ public class PlayerInteractionHandler : MonoBehaviour
                 if (rayhitList[i].transform != null)
                 {
 
-                    Debug.Log("Test2");
                     Debug.Log(i);
                     Debug.Log(rayhitList[i].transform);
                     if (Vector3.Distance(transform.position, rayhitList[i].transform.position) < closestDistance)
                     {
-                        Debug.Log("Test3");
                         closestDistance = Vector3.Distance(transform.position, rayhitList[i].transform.position);
                         closestInteractable = rayhitList[i].transform.gameObject;
                     }
@@ -90,6 +87,10 @@ public class PlayerInteractionHandler : MonoBehaviour
     private void OnDrawGizmos()
     {
         
+        
+    }
+    private void OnDrawGizmosSelected()
+    {
         Gizmos.DrawSphere(center, radius);
     }
 }

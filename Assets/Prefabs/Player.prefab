@@ -560,6 +560,7 @@ MonoBehaviour:
   ledgeWithGrab: 0.15
   ledgeWithStand: 0.7
   rayDownLenght: 0.3
+  heightOfset: 0.3
   cC: {fileID: 4857907409430542772}
   cam: {fileID: 0}
   relativeMoreDir: {x: 0, y: 0, z: 0}
@@ -596,7 +597,7 @@ GameObject:
   - component: {fileID: 8555121453151021879}
   - component: {fileID: 7430370175413811939}
   m_Layer: 0
-  m_Name: Leg
+  m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1409,7 +1410,7 @@ GameObject:
   - component: {fileID: 2144728292922332922}
   - component: {fileID: 4949267781797697899}
   m_Layer: 0
-  m_Name: Leg
+  m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
