@@ -257,6 +257,109 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""LedgeGrab"",
+            ""id"": ""8eac0eef-b242-47c3-8921-4aa358083ed9"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""69219175-90a7-40b1-a3b2-524bd01f65d7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PullUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""7cc52fdc-d504-43d2-be6c-1272d638aef4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""5533e9ce-2b17-4981-b6ad-5f78a0a85fc4"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d4e8fef4-07f0-46ee-a634-20333e48624c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b5cfaf2c-251f-4780-b775-bac6c6a03167"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""db1c3891-a0f1-4efa-8216-164d0bd879dc"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""bf9a31a3-d46b-4c8b-a9bd-ae68ecf855b1"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f62ce9a0-ca14-444f-b627-8cb055acf004"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc3cc87e-c3ff-47ce-991f-69687886159a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PullUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -271,6 +374,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+        // LedgeGrab
+        m_LedgeGrab = asset.FindActionMap("LedgeGrab", throwIfNotFound: true);
+        m_LedgeGrab_Movement = m_LedgeGrab.FindAction("Movement", throwIfNotFound: true);
+        m_LedgeGrab_PullUp = m_LedgeGrab.FindAction("PullUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -424,6 +531,47 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // LedgeGrab
+    private readonly InputActionMap m_LedgeGrab;
+    private ILedgeGrabActions m_LedgeGrabActionsCallbackInterface;
+    private readonly InputAction m_LedgeGrab_Movement;
+    private readonly InputAction m_LedgeGrab_PullUp;
+    public struct LedgeGrabActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public LedgeGrabActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_LedgeGrab_Movement;
+        public InputAction @PullUp => m_Wrapper.m_LedgeGrab_PullUp;
+        public InputActionMap Get() { return m_Wrapper.m_LedgeGrab; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(LedgeGrabActions set) { return set.Get(); }
+        public void SetCallbacks(ILedgeGrabActions instance)
+        {
+            if (m_Wrapper.m_LedgeGrabActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnMovement;
+                @PullUp.started -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnPullUp;
+                @PullUp.performed -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnPullUp;
+                @PullUp.canceled -= m_Wrapper.m_LedgeGrabActionsCallbackInterface.OnPullUp;
+            }
+            m_Wrapper.m_LedgeGrabActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @PullUp.started += instance.OnPullUp;
+                @PullUp.performed += instance.OnPullUp;
+                @PullUp.canceled += instance.OnPullUp;
+            }
+        }
+    }
+    public LedgeGrabActions @LedgeGrab => new LedgeGrabActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -435,5 +583,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnNewaction(InputAction.CallbackContext context);
+    }
+    public interface ILedgeGrabActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnPullUp(InputAction.CallbackContext context);
     }
 }
