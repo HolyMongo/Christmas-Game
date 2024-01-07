@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementHandeler : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
 
@@ -19,16 +19,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Tooltip("What layers the player sees as ground. Aka what can the player stand on, jump from, etc")] private LayerMask groundLayer;
 
     [Header("Ledge Grab")]
-    [SerializeField] [Tooltip("True if the player can grab the ledge")] private bool isLedgeGrabable;
+    [SerializeField] [Tooltip("True if the player can grab the ledge")] private bool isLedgeGrabable; //Currently not being used
     [SerializeField] [Tooltip("True if the player is currently grabbing a ledge")] private bool isGrabbingLedge;
     [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos1;
     [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private Transform checkPos2;
-    [SerializeField] [Tooltip("Point from where a ray is cast to find a grabable ledge")] private float distanceBetween1and2;
+    [SerializeField] [Tooltip("Distance Between the two points where we check for a grabable ledge")] private float distanceBetween1and2;
     [SerializeField] [Tooltip("The layers that the player can grab")] private LayerMask ledgeGrabLayerMask;
     [SerializeField] [Tooltip("The minimus with of the ledge for the player to grab it")] private float ledgeWithGrab;
     [SerializeField] [Tooltip("The minimum with of the ledge for the player to pull itself up on the ledge")] private float ledgeWithStand;
     [SerializeField] [Tooltip("The distance it checks beneath the two points in order to fing a ledge to grab")] private float rayDownLenght;
-    [SerializeField] [Tooltip("The distance the player should be betheathe yhe ledge. Aka the lenght of the arms")] private float heightOfset;
+    [SerializeField] [Tooltip("The distance the player should be betheathe the ledge. Aka the lenght of the arms")] private float heightOfset;
+
+    [Header("Different Movement types")]
+    [SerializeField] [Tooltip("")] private IMovementTypes currentMovementScript;
+    [SerializeField] [Tooltip("")] private IMovementTypes normalMovement;
+    [SerializeField] [Tooltip("")] private IMovementTypes ledgeMovement;
 
 
     [Header("Test Things")]
@@ -43,10 +48,10 @@ public class PlayerMovement : MonoBehaviour
         cam = Camera.main.transform;
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
-        playerInputActions.Player.Jump.performed += Jump_performed;
+        //playerInputActions.Player.Jump.performed += Jump_performed;
         distanceBetween1and2 = Vector3.Distance(checkPos1.position, checkPos2.position);
     }
-
+    /* 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         //If the character is grounded we set the y axis in the move direction to a positive value. aka set give the character an upward force
@@ -56,20 +61,16 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(obj.phase);
         }
     }
+     */
 
     // Update is called once per frame
     void Update()
     {
-        if (!isGrabbingLedge)
-        {
-            NormalMovement();
-        }
-        else
-        {
-            LedgeMovement();
-        }
+        currentMovementScript.Movement();
     }
 
+    /* 
+     
     private void NormalMovement()
     {
         Vector2 inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>().normalized;
@@ -98,12 +99,15 @@ public class PlayerMovement : MonoBehaviour
         Gravity();
         LedgeGrabCheck();
     }
-
+*/
+    /*
     private void LedgeMovement()
     {
 
     }
-
+    */
+    /* 
+    
     private void Gravity()
     {
         if (IsGrounded() && moveDir.y < 0)
@@ -114,13 +118,15 @@ public class PlayerMovement : MonoBehaviour
         moveDir.y += gravity * Time.deltaTime;
         
     }
-
+ */
+    /* 
+     
     private bool IsGrounded()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
         return isGrounded;
     }
-
+*/
     private void LedgeGrabCheck()
     {
         if (!isGrounded && playerInputActions.Player.Jump.IsPressed())
@@ -177,23 +183,25 @@ public class PlayerMovement : MonoBehaviour
     private void GrabLedge(Vector3 gO1ToGrab, Vector3 gO2ToGrab)
     {
         Vector3 positionToGrab = gO2ToGrab - (gO1ToGrab - gO2ToGrab)/2;
-        Debug.Log("Position 1: " + gO1ToGrab);
-        Debug.Log("Position 2: " + gO2ToGrab);
         if (gO1ToGrab.y == gO2ToGrab.y)
         {
             positionToGrab = new Vector3(positionToGrab.x, gO2ToGrab.y, positionToGrab.z);
         }
-        Debug.Log("Position of contact: " + positionToGrab);
 
         Vector3 positionToPlaceCharacter = positionToGrab - (positionToGrab - gameObject.transform.position) * cC.bounds.extents.z;
-        Debug.Log(positionToPlaceCharacter + " Before y positioning");
         positionToPlaceCharacter.y -= heightOfset;
-        Debug.Log(positionToPlaceCharacter + " After y positioning");
         
 
 
         //Does not move smoothly but will be changed later
         gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, positionToPlaceCharacter, 1f);
+    }
+
+    private void ChangeMovementScript(IMovementTypes desiredScript)
+    {
+        currentMovementScript.EnableOrDisableActionMap(false);
+        currentMovementScript = desiredScript;
+        currentMovementScript.EnableOrDisableActionMap(true);
     }
 }
 
